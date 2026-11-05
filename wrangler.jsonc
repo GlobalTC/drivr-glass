@@ -1,0 +1,43 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "drivr-glass",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-27",
+  // account_id: intentionally omitted. Either run `npx wrangler login` (wrangler picks
+  // your account) or add "account_id": "<your Cloudflare account id>" here locally.
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1
+    }
+  },
+  "secrets": {
+    "required": [
+      "PUSH_TOKEN"
+    ]
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "TRACE_HUB",
+        "class_name": "TraceHub"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": [
+        "TraceHub"
+      ]
+    }
+  ],
+  "vars": {
+    // Replace with your own random id before deploying (see README "Generate your ids").
+    // Path obscurity, not a secret — but never share it publicly or reuse someone else's.
+    "GLASS_SESSION_ID": "REPLACE_ME_GLASS_SESSION_ID"
+  }
+}
